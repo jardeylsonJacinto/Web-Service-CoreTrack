@@ -18,25 +18,27 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_category")
-public class Category implements Serializable {
+@Table(name = "tb_product")
+public class Product implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
+  private String description;
+  private Double price;
+  private String imgUrl;
 
-  public Category(Long id, String name) {
+  @Transient
+  private Set<Category> categories = new HashSet<>();
+
+  public Product(Long id, String name, String description, Double price, String imgUrl) {
     super();
     this.id = id;
     this.name = name;
-  }
-
-  @Transient
-  private Set<Product> products = new HashSet<>();
-
-  public Set<Product> getProducts() {
-    return products;
+    this.description = description;
+    this.price = price;
+    this.imgUrl = imgUrl;
   }
 }
