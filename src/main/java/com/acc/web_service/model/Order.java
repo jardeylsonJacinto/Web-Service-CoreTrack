@@ -2,6 +2,8 @@ package com.acc.web_service.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.acc.web_service.model.enums.OrderStatus;
 
@@ -11,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +37,9 @@ public class Order implements Serializable {
   @JoinColumn(name = "client_id")
   private User client;
 
+  @OneToMany(mappedBy = "id.order")
+  private Set<OrderItem> items = new HashSet<>();
+
   public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
     super();
     this.id = id;
@@ -50,5 +56,9 @@ public class Order implements Serializable {
     if (orderStatus != null) {
       this.orderStatus = orderStatus.getCode();
     }
+  }
+
+  public Set<OrderItem> getItems() {
+    return items;
   }
 }
